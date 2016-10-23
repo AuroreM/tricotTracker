@@ -12,12 +12,19 @@ server.listen(port, function () {
 // Routing
 app.use(express.static(__dirname + '/public'));
 
+app.get('/test', function (req, res, next) {
+  res.sendFile(__dirname+'/public/test.html');
+})
+
+var moveCount = 0;
+
+app.post('/move', function (req, res, next) {
+  moveCount++;
+  io.emit('move', moveCount);
+  res.send(200);
+})
 
 io.on('connection', function (socket) {
-  var moveCount = 0;
-  app.post('/move', function (req, res, next) {
-    moveCount++;
-    socket.emit('move', {moveCount: moveCount});
-    res.send(200);
-  })
+  console.log('connection');
+  socket.emit('move', moveCount);
 });
