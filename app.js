@@ -28,6 +28,12 @@ app.post('/move', function (req, res, next) {
   res.sendStatus(200);
 })
 
+app.post('/reset', function (req, res, next) {
+  moveCount = 0;
+  io.emit('move', moveCount);
+  res.sendStatus(200);
+})
+
 io.on('connection', function (socket) {
   console.log('connection');
   socket.emit('move', moveCount);
