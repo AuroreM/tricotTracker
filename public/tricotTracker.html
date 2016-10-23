@@ -12,14 +12,7 @@
             height: 30px;
             border: none;
         }
-        .stitch-1
-        {
-            background-color: black;
-            width: 30px;
-            height: 30px;
-        }
-        .stitch-2 {
-            background-color: aquamarine;
+        .stitch {
             width: 30px;
             height: 30px;
         }
@@ -51,6 +44,10 @@
 
             </tbody>
         </table>
+
+        <div id="explanations">
+
+        </div>
     </div>
 
     </body>
@@ -60,27 +57,56 @@
 <script type="">
 
     var model = {
-        "color" : {
-            1 : "#FF0000",
-            2 : "#000000"
+        "stitch" : {
+            0: {
+                "colorLabel":"vide"
+            },
+            1 : {
+                "color":"#f00",
+                "colorLabel":"rouge"
+            },
+            2 : {
+                "color":"#0f0",
+                "colorLabel":"bleu"
+            }
     },
         "data" : [
+        [0,1,1,1,1,1,1,1,1,1,0],
         [0,1,1,1,1,2,1,1,1,1,0],
         [0,1,1,1,1,2,1,1,1,1,0],
         [0,1,1,1,1,2,1,1,1,1,0],
         [1,2,1,1,1,2,1,1,1,2,1],
-        [0,1,1,1,1,2,1,1,1,1,0],
-        [0,1,1,1,1,2,1,1,1,1,0],
-        [0,1,1,1,1,2,1,1,1,1,0],
-        [0,1,1,1,1,2,1,1,1,1,0],
-        [0,1,1,1,1,2,1,1,1,1,0],
-        [0,1,1,1,1,2,1,1,1,1,0],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [1,2,1,1,1,2,1,1,1,2,1],
         [1,2,1,1,1,2,1,1,1,2,1],
         [0,1,1,1,1,2,1,1,1,1,0],
         [0,1,1,1,1,2,1,1,1,1,0],
-        [0,1,1,1,1,2,1,1,1,1,0]
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,1,1,1,1,1,0]
     ],
-        "currentRow" : 0
+        "currentRow" : 0,
+        "explanations" : [
+            '4 black, 1 green, 4 black',
+            '4 black, 1 green, 4 black',
+            '4 black, 1 green, 4 black',
+            'Add 1 black stitch at the beginning, 1 green, 3 black, 1 green, 3 black, 1 green, add 1 black stitch at the end',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            '1 black, 1 green, 3 black, 1 green, 3 black, 1 green, 1 black',
+            'Remove 1st stitch, 4 black, 1 green, 4 black, remove last stitch',
+            '4 black, 1 green, 4 black',
+            '4 black, 1 green, 4 black',
+            '4 black, 1 green, 4 black',
+            'Finish'
+        ]
 
     };
 
@@ -88,19 +114,49 @@
         var container = document.getElementById('container');
         for (var rank = 0; rank < state.data.length; rank++) {
             var line = document.createElement('tr');
-            state.data[rank].map(function(color) {
+            state.data[rank].map(function(stitch) {
                 var cell = document.createElement('td');
-                cell.classList.add('stitch-' + color);
-                cell.style.opacity = rank < state.currentRow ? 1 : 0.2;
+                if (stitch != 0) {
+                    cell.style.backgroundColor = state.stitch[stitch].color;
+                    cell.style.opacity = rank < state.currentRow ? 1 : 0.2;
+                }
+                cell.classList.add('stitch' + (stitch == 0 ? '-0' : ''));
                 line.appendChild(cell);
             })
             container.appendChild(line);
         }
+
+
+        var explanations = document.getElementById('explanations');
+        explanations.innerText = generateRow(model);
     };
+
+    generateRow = function(model) {
+        if (true) {
+            var rank = model.data[model.currentRow];
+            var colors = rank.reduce(function(a, b) {
+                if (a.length === 0) {
+                    a.push([1, b]);
+                } else {
+                    var prev = a[a.length-1];
+                    if (prev[1] === b) {
+                        a[a.length-1][0] +=1;
+                    } else {
+                        a.push([1, b]);
+                    }
+                }
+                return a;
+            }, []);
+            var explanations = colors.reduce(function(a,b) {
+                a += b[0]+' '+model.stitch[b[1]].colorLabel+' ';
+                return a;
+            }, '');
+            return explanations;
+        }
+    }
 
     getFirstLine = function() {
         var container = document.getElementById('first-line');
-        console.log(model.data.length)
         for (var i = 0; i < model.data[0].length; i++) {
             var cell = document.createElement('td');
             cell.classList.add('first-cell');
