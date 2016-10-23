@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <style type="text/css">
+        .stitch-0 {
+            background-color: white;
+            width: 15px;
+            height: 15px;
+        }
+        .stitch-1
+        {
+            background-color: black;
+            width: 15px;
+            height: 15px;
+        }
+        .stitch-2 {
+            background-color: aquamarine;
+            width: 15px;
+            height: 15px;
+        }
+    </style>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Title Goes Here</title>
+</head>
+    <body>
+    <table>
+        <tbody id="container">
+
+        </tbody>
+    </table>
+
+    <button onclick="increment()">
+        Coup de pédale
+    </button>
+    </body>
+</html>
+
+<script type="">
+
+    var model = {
+        "color" : {
+            1 : "#FF0000",
+            2 : "#000000"
+    },
+        "data" : [
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [1,2,1,1,1,2,1,1,1,2,1],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0],
+        [0,1,1,1,1,2,1,1,1,1,0]
+    ],
+        "currentRow" : 0
+
+    };
+
+    updateTable = function(state) {
+        var container = document.getElementById('container');
+        for (var rank = 0; rank < state.data.length; rank++) {
+            var line = document.createElement('tr');
+            state.data[rank].map(function(color) {
+                var cell = document.createElement('td');
+                cell.classList.add('stitch-' + color);
+                cell.style.opacity = rank < state.currentRow ? 1 : 0.2;
+                line.appendChild(cell);
+            })
+            container.appendChild(line);
+        }
+    };
+
+    increment = function() {
+        model.currentRow += 1;
+        var container = document.getElementById('container');
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+        updateTable(model);
+    }
+
+    updateTable(model);
+
+</script>
