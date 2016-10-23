@@ -12,7 +12,7 @@ server.listen(port, function () {
 // Routing
 app.use(express.static(__dirname + '/public'));
 
-app.get('/test', function (req, res, next) {
+app.get('/tricot-tracker', function (req, res, next) {
   res.sendFile(__dirname+'/public/tricotTracker.html');
 })
 
