@@ -117,6 +117,10 @@
         while (container.firstChild) {
             container.removeChild(container.firstChild);
         }
+        var firstLine = document.getElementById('first-line');
+        while (firstLine.firstChild) {
+            firstLine.removeChild(firstLine.firstChild);
+        }
         getFirstLine()
         updateTable(model)
     })
