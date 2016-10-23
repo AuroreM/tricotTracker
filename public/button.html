@@ -20,18 +20,18 @@
         display: block;
         margin-bottom: 20px;
     }
-    #move {
+    .move {
       background-color: green;
     }
-    #reset {
+    .reset {
       background-color: blue;
     }
   </style>
   <script>
-    move = function(){
+    move = function(number){
       console.log('Moving :)')
       var http = new XMLHttpRequest();
-      var url = "/move";
+      var url = "/move/" + number;
       http.open("POST", url, true);
 
       http.onreadystatechange = function() {
@@ -56,10 +56,13 @@
     }
   </script>
   <body>
-    <button id="move" onclick="move()">
-      Click me!
+    <button class="move" onclick="move(1)">
+      Add one row!
     </button>
-    <button id="reset" onclick="reset()">
+    <button class="move" onclick="move(-1)">
+      Remove one row!
+    </button>
+    <button class="reset" onclick="reset()">
       Reset
     </button>
   </body>

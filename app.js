@@ -22,8 +22,11 @@ app.get('/button', function (req, res, next) {
 
 var moveCount = 0;
 
-app.post('/move', function (req, res, next) {
-  moveCount++;
+app.post('/move/:number', function (req, res, next) {
+  moveCount += parseInt(req.params.number || 1);
+  if(moveCount < 0) {
+    moveCount = 0;
+  }
   io.emit('move', moveCount);
   res.sendStatus(200);
 })
