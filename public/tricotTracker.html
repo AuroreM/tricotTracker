@@ -80,7 +80,8 @@
 
     var socket = io();
     socket.on('move', function (moveCount) {
-        model.currentRow += 1;
+        console.log("Event 'move' received", moveCount)
+        model.currentRow = moveCount;
         updateTable(model)
     })
 </script>

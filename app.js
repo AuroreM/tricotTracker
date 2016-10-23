@@ -21,7 +21,7 @@ var moveCount = 0;
 app.post('/move', function (req, res, next) {
   moveCount++;
   io.emit('move', moveCount);
-  res.send(200);
+  res.sendStatus(200);
 })
 
 io.on('connection', function (socket) {
