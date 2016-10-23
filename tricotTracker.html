@@ -28,10 +28,7 @@
 
         </tbody>
     </table>
-
-    <button onclick="increment()">
-        Coup de pédale
-    </button>
+    <script src="/socket.io/socket.io.js"></script>
     </body>
 </html>
 
@@ -76,15 +73,9 @@
         }
     };
 
-    increment = function() {
+    var socket = io();
+    socket.on('move', function (moveCount) {
         model.currentRow += 1;
-        var container = document.getElementById('container');
-        while (container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
-        updateTable(model);
-    }
-
-    updateTable(model);
-
+        updateTable(model)
+    })
 </script>

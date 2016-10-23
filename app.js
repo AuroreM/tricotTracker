@@ -13,7 +13,7 @@ server.listen(port, function () {
 app.use(express.static(__dirname + '/public'));
 
 app.get('/test', function (req, res, next) {
-  res.sendFile(__dirname+'/public/test.html');
+  res.sendFile(__dirname+'/public/tricotTracker.html');
 })
 
 var moveCount = 0;
