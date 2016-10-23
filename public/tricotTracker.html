@@ -28,13 +28,10 @@
 
         </tbody>
     </table>
-
-    <button onclick="increment()">
-        Coup de pédale
-    </button>
     </body>
 </html>
 
+<script src="/socket.io/socket.io.js"></script>
 <script type="">
 
     var model = {
@@ -87,4 +84,8 @@
 
     updateTable(model);
 
+    var socket = io();
+    socket.on('move', function (moveCount) {
+      increment();
+    })
 </script>
