@@ -16,6 +16,10 @@ app.get('/tricot-tracker', function (req, res, next) {
   res.sendFile(__dirname+'/public/tricotTracker.html');
 })
 
+app.get('/button', function (req, res, next) {
+  res.sendFile(__dirname+'/public/button.html');
+})
+
 var moveCount = 0;
 
 app.post('/move', function (req, res, next) {
